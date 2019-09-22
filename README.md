@@ -32,6 +32,6 @@ To get this project up and running locally on your computer:
    python manage.py runserver
  
  ``
-1. Open tab to `http://127.0.0.1:8000` to see the main site, with your new objects.
+1. Open tab to `http://127.0.0.1:8000/catalog` to see the main site, with your new objects.
 
 1. Open tab to `http://127.0.0.1:8000/catalog/api` API endpoint links........here....!# Ib-Catalog

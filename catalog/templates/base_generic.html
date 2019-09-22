@@ -1,14 +1,14 @@
 {% load static %}<!<!DOCTYPE html>
 <html lang="en">
 <head>
-  
+
   {% block title %}<title>Books Catalog</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
+
   <!-- Add additional CSS in static file -->
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -25,36 +25,25 @@
     <li><a href="{% url 'books' %}">All books</a></li>
     <li><a href="{% url 'authors' %}">All authors</a></li>
   </ul>
-  
-  
-  <header>
-    <h1>Simple Social Auth</h1>
-    {% if user.is_authenticated %}
-      You are signed in as <strong>{{ user.username }}</strong> /
-      <a href="{% url 'home' %}">home</a> /
-      <a href="{% url 'settings' %}">settings</a> /
-      <a href="{% url 'password' %}">change password</a> /
-      <a href="{% url 'logout' %}">logout</a>
-    {% else %}
-      <a href="{% url 'login' %}">login</a> /
-      <a href="{% url 'signup' %}">signup</a>
-    {% endif %}
-    <hr>
-  </header>
- 
+
   <ul class="sidebar-nav">
    {% if user.is_authenticated %}
      <li>User: {{ user.get_username }}</li>
+     <li><a href="{% url 'book_create' %}">Create Book</a></li>
+     <li><a href="{% url 'author_create' %}">Create Author</a></li>
+     <li><a href="{% url 'readed-book' %}">Add Readed Items here</a></li>
+     <li><a href="{% url 'review-books' %}">ReviewList Here</a></li>
+     <li><a href="{% url 'review-book' %}">My Reviews</a></li>
      <li><a href="{% url 'my-borrowed' %}">My Reading Books</a></li>
 	 <li><a href="{% url 'settings' %}">settings</a></li>
      <li><a href="{% url 'password' %}">change password</a><li>
-     <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+     <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
    {% else %}
-     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li> 
-     <li>New User? <a href="{% url 'signup' %}">Sign Up</a></i>	 
-   {% endif %} 
+     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+     <li>New User? <a href="{% url 'signup' %}?next={{request.path}}">>Sign Up</a></i>
+   {% endif %}
   </ul>
-  
+
    {% if user.is_staff %}
    <hr />
    <ul class="sidebar-nav">
@@ -64,12 +53,12 @@
    {% endif %}
    </ul>
     {% endif %}
- 
+
 {% endblock %}
   </div>
   <div class="col-sm-10 ">
   {% block content %}{% endblock %}
-  
+
   {% block pagination %}
     {% if is_paginated %}
         <div class="pagination">
@@ -86,9 +75,9 @@
             </span>
         </div>
     {% endif %}
-  {% endblock %} 
-  
-  
+  {% endblock %}
+
+
   </div>
 </div>
 
