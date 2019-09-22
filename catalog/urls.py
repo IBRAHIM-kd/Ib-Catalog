@@ -1,7 +1,7 @@
 from django.urls import path, include
-from django.conf.urls import url, include
+from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 
-from django.contrib.auth import views as auth_views
 
 
 
@@ -18,8 +18,7 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path(r'^review/$', login_required(ReviewList.as_view()), name='review-books'),
-    path(r'^review/(?P<pk>[-\w]+)/$', review_book, name='review-book'),
+    path('readedbook/create/', views.ReadedBook.as_view(), name='readed-book'),
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
     path(r'borrowed/', views.LoanedBooksAllListView.as_view(), name='all-borrowed'),  # Added for challenge
 ]
@@ -47,9 +46,11 @@ urlpatterns += [
 
 
 urlpatterns = [
-    url(r'^$',views.usersignup, name='signup'),
+    url(r'^signup/$',  views.signup, name='signup'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
-    url(r'account_activation_sent/$, views.account_activation_sent, name='account_activation_sent'),
-    url(r'activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', views.activate, name='activate'),
+    url(r'^account_activation_sent/$', views.account_activation_sent, name='account_activation_sent'),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
+    url(r'^review/$', login_required(views.ReviewList.as_view()), name='review-books'),
+    url(r'^review/(?P<pk>[-\w]+)/$', views.review_book, name='review-book'),
 ]
 

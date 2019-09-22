@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import generics
 
 # Create your views here.
 
@@ -31,24 +32,24 @@ from django.views import generic
 
 
 
-class BookListView(generic.ListView):
+class BookListView(generics.ListAPIView, generic.ListView):
     """Generic class-based view for a list of books."""
     model = Book
     paginate_by = 10
 
 
-class BookDetailView(generic.DetailView):
+class BookDetailView(generics.RetrieveUpdateDestroyAPIView, generic.DetailView):
     """Generic class-based detail view for a book."""
     model = Book
 
 
-class AuthorListView(generic.ListView):
+class AuthorListView(generics.ListAPIView, generic.ListView):
     """Generic class-based list view for a list of authors."""
     model = Author
     paginate_by = 10
 
 
-class AuthorDetailView(generic.DetailView):
+class AuthorDetailView(generics.RetrieveUpdateDestroyAPIView, generic.DetailView):
     """Generic class-based detail view for an author."""
     model = Author
 
@@ -125,13 +126,14 @@ def renew_book_librarian(request, pk):
 
 
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView, View
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView
 from django.core.files.storage import FileSystemStorage
@@ -191,9 +193,15 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books')
     permission_required = 'catalog.can_mark_returned'
-    
-    
-    
+
+
+class ReadedBook(PermissionRequiredMixin, CreateView):
+    model =  ReadedBook
+    fields = '__all__'
+    success_url = reverse_lazy('readedbook_list')
+    permission_required = 'catalog.can_mark_returned'
+
+
 class ReviewList(View):
     """
     List all of the books that we want to review.
@@ -249,13 +257,13 @@ def review_book(request, pk):
         'form':form,
     }
 
-    return render(request, "catalog/review-book.html", context)    
-    
-    
+    return render(request, "catalog/review-book.html", context)
+
+
 from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import update_session_auth_hash, login, authenticate
 from django.contrib import messages
-   
+
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -270,7 +278,7 @@ from catalog.tokens import account_activation_token
 
 
 
-def usersignup(request):
+def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -280,7 +288,7 @@ def usersignup(request):
 
             current_site = get_current_site(request)
             subject = 'Activate Your MySite Account'
-            message = render_to_string('registration/account_activation_email.html', {
+            message = render_to_string('account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -295,7 +303,7 @@ def usersignup(request):
 
 
 def account_activation_sent(request):
-    return render(request, 'registration/account_activation_sent.html')
+    return render(request, 'account_activation_sent.html')
 
 
 def activate(request, uidb64, token):
@@ -312,9 +320,9 @@ def activate(request, uidb64, token):
         login(request, user)
         return redirect('index')
     else:
-        return render(request, 'registration/account_activation_invalid.html')
-        
-        
+        return render(request, 'account_activation_invalid.html')
+
+
 @login_required
 def index(request):
     return render(request, 'catalog/index.html')
@@ -334,7 +342,7 @@ def settings(request):
 
     can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
 
-    return render(request, 'registration/settings.html', {
+    return render(request, 'settings.html', {
         'github_login': github_login,
         'twitter_login': twitter_login,
         'can_disconnect': can_disconnect
@@ -358,7 +366,7 @@ def password(request):
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordForm(request.user)
-    return render(request, 'registration/password.html', {'form': form})
-        
+    return render(request, 'password.html', {'form': form})
 
-	
+
+
