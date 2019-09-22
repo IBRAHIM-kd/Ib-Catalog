@@ -17,24 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('catalog.urls')),
 ]
-
-
-from django.urls import path
-from django.contrib import admin
 
 # Use include() to add URLS from the catalog application and authentication system
-from django.urls import include
-
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
-
-
 urlpatterns += [
     path('catalog/', include('catalog.urls')),
 ]
