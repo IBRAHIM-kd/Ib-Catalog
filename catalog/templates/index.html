@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Books Catalog Homepage</h1>
+
+<p>Welcome to <em>Books Catalog Application</em>, a very basic Django website developed by : IBRAHIM ABDULLAHI for | eskolare-django-challenge-2019 |</p>
+
+<h2>Dynamic content</h2>
+
+<p>The Books Catalog has the following record counts:</p>
+<ul>
+<li><strong>Books:</strong> {{ num_books }}</li>
+<li><strong>Copies:</strong> {{ num_instances }}</li>
+<li><strong>Copies available:</strong> {{ num_instances_available }}</li>
+<li><strong>Authors:</strong> {{ num_authors }}</li>
+</ul>
+
+
+You have visited this page {{ num_visits }} times.
+
+{% endblock %}

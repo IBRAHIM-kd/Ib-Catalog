@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Readed books</h1>
+
+    {%  if readedbook_list  %}
+    <ul>
+
+      {% for readedbooks in readedbook_list%} 
+      <li class="{% if readedbooks.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'book-detail' readedbooks.book.pk %}">{{readedbooks.book.title}}</a> ({{ readedbooks.due_back }})        
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no Readed Books.</p>
+    {% endif %}       
+{% endblock %}
+
