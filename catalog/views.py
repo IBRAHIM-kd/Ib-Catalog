@@ -3,7 +3,7 @@ from rest_framework import generics
 
 # Create your views here.
 
-from .models import Book, Author, ReadedBook, Review, Catagory
+from .models import Book, Author, ReadedBook, Catagory
 
 
 def index(request):
