@@ -195,11 +195,11 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     permission_required = 'catalog.can_mark_returned'
 
 
-class ReadedBook(PermissionRequiredMixin, CreateView):
-    model =  ReadedBook
-    fields = '__all__'
-    success_url = reverse_lazy('readedbook_list')
-    permission_required = 'catalog.can_mark_returned'
+
+
+
+
+
 
 
 class ReviewList(View):
