@@ -32,24 +32,24 @@ from django.views import generic
 
 
 
-class BookListView(generics.ListAPIView, generic.ListView):
+class BookListView(genetic.ListView):
     """Generic class-based view for a list of books."""
     model = Book
     paginate_by = 10
 
 
-class BookDetailView(generics.RetrieveUpdateDestroyAPIView, generic.DetailView):
+class BookDetailView(generic.DetailView):
     """Generic class-based detail view for a book."""
     model = Book
 
 
-class AuthorListView(generics.ListAPIView, generic.ListView):
+class AuthorListView(generic.ListView):
     """Generic class-based list view for a list of authors."""
     model = Author
     paginate_by = 10
 
 
-class AuthorDetailView(generics.RetrieveUpdateDestroyAPIView, generic.DetailView):
+class AuthorDetailView(generic.DetailView):
     """Generic class-based detail view for an author."""
     model = Author
 
