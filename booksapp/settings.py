@@ -164,8 +164,8 @@ STATIC_ROOT = '/home/bignamekd/Ib-Catalog/static'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ibrossa2@gmail.com'
-EMAIL_HOST_PASSWORD = 'booking100'
+EMAIL_HOST_USER = 'ib@gmail.com'
+EMAIL_HOST_PASSWORD = 'booooooooiioo'
 EMAIL_PORT = 587
 
 SOCIAL_AUTH_GITHUB_KEY = 'd3465070356ae542036b'
