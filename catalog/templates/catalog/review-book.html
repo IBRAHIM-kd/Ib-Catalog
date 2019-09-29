@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "base_generic.html" %}
 
 {% block content %}
-	<h1>Review <em>{{ book.title }}</em> by <em>{{ book.list_author }}</em></h1>
+	<h1>Review By <em>{{ book.title }}</em><em>{{ book.list_author }}</em></h1>
     <form method="post">
 	{% csrf_token %}
 
