@@ -20,7 +20,7 @@ urlpatterns = [
 
 urlpatterns += [
     path('readedbook/create/', views.ReadedBookCreate.as_view(), name='readedbook_create'),
-    path('readedbook/<int:pk>/update/', views.ReadedookUpdate.as_view(), name='readedbook_update'),
+    path('readedbook/<int:pk>/update/', views.ReadedBookUpdate.as_view(), name='readedbook_update'),
     path('readedbook/<int:pk>/delete/', views.ReadedBookDelete.as_view(), name='readedbook_delete'),
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
     path(r'borrowed/', views.LoanedBooksAllListView.as_view(), name='all-borrowed'),  # Added for challenge
