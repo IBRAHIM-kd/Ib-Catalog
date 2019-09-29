@@ -14,7 +14,7 @@ The main features that have currently been implemented are:
 * Social Authentication 
 * images upload ()book cover, for example 
                                                                                
-* The link to this Application is on PythonAnywhere website as | |
+* The link to this Application is on PythonAnywhere website as | http://bignamekd.pythonanywhere.com |
 
 
 
