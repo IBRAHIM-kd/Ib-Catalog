@@ -3,8 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from .models import Book, Author, ReadedBook, Catagory
-
+from .models import Book, Author, ReadedBook
 
 def index(request):
     """View function for home page of site."""
@@ -32,7 +31,7 @@ from django.views import generic
 
 
 
-class BookListView(genetic.ListView):
+class BookListView(generic.ListView):
     """Generic class-based view for a list of books."""
     model = Book
     paginate_by = 10
@@ -53,6 +52,16 @@ class AuthorDetailView(generic.DetailView):
     """Generic class-based detail view for an author."""
     model = Author
 
+
+class ReadedBookListView(generic.ListView):
+    """Generic class-based list view for a list of authors."""
+    model = ReadedBook
+    paginate_by = 10
+
+
+class ReadedBookDetailView(generic.DetailView):
+    """Generic class-based detail view for an author."""
+    model = ReadedBook
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -193,13 +202,12 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books')
     permission_required = 'catalog.can_mark_returned'
-
-
-
-
-
-
-
+	
+	
+class ReadedBookCreate(PermissionRequiredMixin, CreateView):
+    model = ReadedBook
+    fields = '__all__'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class ReviewList(View):
@@ -288,7 +296,7 @@ def signup(request):
 
             current_site = get_current_site(request)
             subject = 'Activate Your MySite Account'
-            message = render_to_string('account_activation_email.html', {
+            message = render_to_string('registration/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -299,11 +307,11 @@ def signup(request):
             return redirect('account_activation_sent')
     else:
         form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 def account_activation_sent(request):
-    return render(request, 'account_activation_sent.html')
+    return render(request, 'registration/account_activation_sent.html')
 
 
 def activate(request, uidb64, token):
@@ -320,11 +328,7 @@ def activate(request, uidb64, token):
         login(request, user)
         return redirect('index')
     else:
-        return render(request, 'account_activation_invalid.html')
-
-
-
-
+        return render(request, 'registration/account_activation_invalid.html')
 
 
 @login_required
@@ -342,7 +346,7 @@ def settings(request):
 
     can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
 
-    return render(request, 'settings.html', {
+    return render(request, 'registration/settings.html', {
         'github_login': github_login,
         'twitter_login': twitter_login,
         'can_disconnect': can_disconnect
@@ -366,7 +370,7 @@ def password(request):
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordForm(request.user)
-    return render(request, 'password.html', {'form': form})
+    return render(request, 'registration/password.html', {'form': form})
 
 
 
