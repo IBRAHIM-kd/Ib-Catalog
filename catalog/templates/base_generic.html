@@ -24,6 +24,7 @@
     <li><a href="{% url 'index' %}">Home</a></li>
     <li><a href="{% url 'books' %}">All books</a></li>
     <li><a href="{% url 'authors' %}">All authors</a></li>
+	<li><a href="{% url 'readedbooks' %}">All ReadingBooks</a></li>
   </ul>
 
   <ul class="sidebar-nav">
@@ -31,16 +32,13 @@
      <li>User: {{ user.get_username }}</li>
      <li><a href="{% url 'book_create' %}">Create Book</a></li>
      <li><a href="{% url 'author_create' %}">Create Author</a></li>
-
-  
-
+     <li><a href="{% url 'review-books' %}">ReviewList Here</a></li>
+	  <li><a href="{% url 'readedbook_create' %}">Create Readedbook here</a></li>
      <li><a href="{% url 'my-borrowed' %}">My Reading Books</a></li>
-
-     <li><a href="{% url 'password' %}">change password</a><li>
      <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
    {% else %}
-     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-     <li>New User? <a href="{% url 'signup' %}?next={{request.path}}">>Sign Up</a></i>
+     <li><a href="{% url 'login'%}">Login</a></li>
+     <li>New User? <a href="{% url 'signup' %}">Sign Up</a></i>
    {% endif %}
   </ul>
 
