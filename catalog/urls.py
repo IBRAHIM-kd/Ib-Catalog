@@ -13,12 +13,15 @@ urlpatterns = [
     path('books/', views.BookListView.as_view(), name='books'),
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
     path('authors/', views.AuthorListView.as_view(), name='authors'),
-    path('author/<int:pk>',
-         views.AuthorDetailView.as_view(), name='author-detail'),
+    path('author/<int:pk>', views.AuthorDetailView.as_view(), name='author-detail'),
+	path('readedbooks/', views.ReadedBookListView.as_view(), name='readedbooks'),
+    path('readedbook/<int:pk>', views.ReadedBookDetailView.as_view(), name='readedbook-detail'),
 ]
 
 urlpatterns += [
-
+    path('readedbook/create/', views.ReadedBookCreate.as_view(), name='readedbook_create'),
+    path('readedbook/<int:pk>/update/', views.ReadedookUpdate.as_view(), name='readedbook_update'),
+    path('readedbook/<int:pk>/delete/', views.ReadedBookDelete.as_view(), name='readedbook_delete'),
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
     path(r'borrowed/', views.LoanedBooksAllListView.as_view(), name='all-borrowed'),  # Added for challenge
 ]
@@ -45,12 +48,12 @@ urlpatterns += [
 ]
 
 
-urlpatterns = [
-    url(r'^signup/$',  views.signup, name='signup'),
-    url(r'^oauth/', include('social_django.urls', namespace='social')),
-    url(r'^account_activation_sent/$', views.account_activation_sent, name='account_activation_sent'),
-    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
-    url(r'^review/$', login_required(views.ReviewList.as_view()), name='review-books'),
-    url(r'^review/(?P<pk>[-\w]+)/$', views.review_book, name='review-book'),
+urlpatterns += [
+   path(r'^signup/$',  views.signup, name='signup'),
+   path(r'^oauth/', include('social_django.urls', namespace='social')),
+   path(r'^account_activation_sent/$', views.account_activation_sent, name='account_activation_sent'),
+   path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
+   path(r'^review/$', login_required(views.ReviewList.as_view()), name='review-books'),
+   path(r'^review/(?P<pk>[-\w]+)/$', views.review_book, name='review-book'),
 ]
 
