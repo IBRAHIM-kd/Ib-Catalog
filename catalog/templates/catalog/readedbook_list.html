@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Readedbook List</h1>
+
+{% if readedbook_list %}
+  <ul>
+
+  {% for readedbook in readedebook_list %}
+    <li>
+      <a href="{{ readedbook.get_absolute_url }}">
+      {{ readedbook }} ({{readedbook.due_back}} - {% if readedbook.status %}{{readedbook.status}}{% endif %})
+      </a>
+    </li>
+  {% endfor %}
+
+ </ul>
+{% else %}
+  <p>There are no readedbooks available.</p>
+{% endif %}
+        
+        
+        
+{% endblock %}
+
