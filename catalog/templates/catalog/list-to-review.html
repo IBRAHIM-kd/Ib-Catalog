@@ -2,7 +2,7 @@
 
 {% block content %}
 	<h1>Books pending review</h1>
-	
+
 	{% if books %}
 		<table>
 			<thead>
@@ -35,55 +35,5 @@
 	{% else %}
 		<p>There are no books waiting to be reviewed.  Good job!</p>
 	{% endif %}
-
-    <h2>Request a new review</h2>
-
-    <form method="post">
-        {% csrf_token %}
-
-        {% if form.non_field_errors %}
-            <div class="non-field-errors">
-                {% for error in form.non_field_errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <label>{{ form.title.label }}</label>
-        {{ form.title }}
-        {{ form.title.help_text }}
-
-        {% if form.title.errors %}
-            <div class="form-error">
-                {% for error in form.title.errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <label>{{ form.author.label }}</label>
-        {{ form.author }}
-        {% if form.author.errors %}
-            <div class="form-error">
-                {% for error in form.author.errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <p>Can't find the author you're looking for? <a href="{% url 'author_create' %}">Create a New Author</a></p>
-
-        <label>Assigned To</label>
-        {{ form.reviewed_by }}
-        {% if form.reviewed_by.errors %}
-            <div class="form-error">
-                {% for error in form.reviewed_by.errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <input type="submit" value="Add Book">
-    </form>
 
 {% endblock %}
