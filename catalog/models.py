@@ -10,28 +10,20 @@ from django.utils.timezone import now
 from django.urls import reverse  # To generate URLS by reversing URL patterns
 
 
-class Catagory(models.Model):
-    """Model representing a book catagory (e.g. Science Fiction, Non Fiction)."""
-    name = models.CharField(
-        max_length=200,
-        help_text="Enter a book catagory (e.g. Science Fiction, French Poetry etc.)"
-        )
-
-    def __str__(self):
-        """String for representing the Model object (in Admin site etc.)"""
-        return self.name
-
-
 class Book(models.Model):
+
+    CATAGORY_CHOICES =[
+	('Science book', 'Science books'),
+	('English book', 'English books'),
+	('Biology book', 'Biology books'),
+	]
     """Model representing a book (but not a specific copy of a book)."""
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     cover = models.ImageField(upload_to='books/covers/', null=True,blank=True)
     # Foreign Key used because book can only have one author, but authors can have multiple books
     # Author as a string rather than object because it hasn't been declared yet in file.
-    catagory = models.ManyToManyField(Catagory, help_text="Select a catagory for this book")
-    # ManyToManyField used because a catagory can contain many books and a Book can cover many catagorys.
-    # Catagory class has already been defined so we can specify the object above.
+    catagory = models.CharField(max_length=200, choices=CATAGORY_CHOICES)
     review = models.TextField(blank=True, null=True)
     reviewed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='reviews')
     date_reviewed = models.DateTimeField(blank=True,null=True)
