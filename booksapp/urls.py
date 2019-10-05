@@ -48,4 +48,5 @@ urlpatterns += [
 #Add Django site authentication urls (for sign up, login, logout, password management)
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
+    path(r'oauth/', include('social_django.urls', namespace='social')),
 ]
