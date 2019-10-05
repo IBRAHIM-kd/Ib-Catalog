@@ -50,7 +50,6 @@ urlpatterns += [
 
 urlpatterns += [
    path(r'^signup/$',  views.signup, name='signup'),
-   path(r'^oauth/', include('social_django.urls', namespace='social')),
    path(r'^account_activation_sent/$', views.account_activation_sent, name='account_activation_sent'),
    path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
    path(r'^review/$', login_required(views.ReviewList.as_view()), name='review-books'),
