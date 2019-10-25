@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-
 # Create your views here.
 
 from .models import Book, Author, ReadedBook
@@ -139,6 +138,9 @@ from django.urls import reverse
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView, View
+from django.contrib.auth.decorators import permission_required
+
+
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -148,7 +150,6 @@ from django.views.generic import TemplateView, ListView, CreateView
 from django.core.files.storage import FileSystemStorage
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.contrib.auth.forms import UserCreationForm
 from .models import Author
 
 from .forms import BookForm, ReviewForm
@@ -210,10 +211,9 @@ class ReadedBookCreate(PermissionRequiredMixin, CreateView):
     permission_required = 'catalog.can_mark_returned'
 
 
-
 class ReadedBookUpdate(PermissionRequiredMixin, UpdateView):
-    model =ReadedBook
-    fields = '_all_'
+    model = ReadedBook
+    fields = '__all__'
     permission_required = 'catalog.can_mark_returned'
 
 
@@ -221,7 +221,6 @@ class ReadedBookDelete(PermissionRequiredMixin, DeleteView):
     model = ReadedBook
     success_url = reverse_lazy('readedbooks')
     permission_required = 'catalog.can_mark_returned'
-
 
 class ReviewList(View):
     """
@@ -251,7 +250,7 @@ class ReviewList(View):
         }
         return render(request,'catalog/list-to-review.html',context)
 
-@login_required
+
 def review_book(request, pk):
     """
     Review an individual book
@@ -293,6 +292,7 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 
 from catalog.forms import SignUpForm
 from catalog.tokens import account_activation_token
@@ -306,39 +306,37 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
+            email_subject = 'Activate Your Account'
             message = render_to_string('registration/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
                 'token': account_activation_token.make_token(user),
             })
-            user.email_user(subject, message)
-
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(email_subject, message, to=[to_email])
+            email.send()
             return redirect('account_activation_sent')
     else:
         form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request,'registration/signup.html', {'form': form})
 
 
 def account_activation_sent(request):
     return render(request, 'registration/account_activation_sent.html')
 
 
-def activate(request, uidb64, token):
+def activate_account(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
-        user.profile.email_confirmed = True
         user.save()
-        login(request, user)
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('index')
     else:
         return render(request, 'registration/account_activation_invalid.html')
@@ -384,6 +382,3 @@ def password(request):
     else:
         form = PasswordForm(request.user)
     return render(request, 'registration/password.html', {'form': form})
-
-
-
