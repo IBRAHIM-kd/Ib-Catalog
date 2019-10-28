@@ -76,10 +76,10 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
 
 
 # Added as part of challenge!
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class LoanedBooksAllListView(PermissionRequiredMixin, generic.ListView):
+class LoanedBooksAllListView(LoginRequiredMixin, generic.ListView):
     """Generic class-based view listing all books on loan. Only visible to users with can_mark_returned permission."""
     model = ReadedBook
     permission_required = 'catalog.can_mark_returned'
@@ -155,27 +155,27 @@ from .models import Author
 from .forms import BookForm, ReviewForm
 
 
-class AuthorCreate(PermissionRequiredMixin, CreateView):
+class AuthorCreate(LoginRequiredMixin, CreateView):
     model = Author
     fields = '__all__'
     initial = {'date_of_death': '05/01/2019'}
     permission_required = 'catalog.can_mark_returned'
 
 
-class AuthorUpdate(PermissionRequiredMixin, UpdateView):
+class AuthorUpdate(LoginRequiredMixin, UpdateView):
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
     permission_required = 'catalog.can_mark_returned'
 
 
-class AuthorDelete(PermissionRequiredMixin, DeleteView):
+class AuthorDelete(LoginRequiredMixin, DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
     permission_required = 'catalog.can_mark_returned'
 
 
 # Classes created for the forms challenge
-class BookCreate(PermissionRequiredMixin, CreateView):
+class BookCreate(LoginRequiredMixin, CreateView):
     model = Book
     fields = ['cover', 'title', 'catagory', 'author' ]
     permission_required = 'catalog.can_mark_returned'
@@ -193,31 +193,31 @@ def book_form(request):
         'form': form
     })
 
-class BookUpdate(PermissionRequiredMixin, UpdateView):
+class BookUpdate(LoginRequiredMixin, UpdateView):
     model = Book
     fields = ['cover', 'title', 'catagory', 'author' ]
     permission_required = 'catalog.can_mark_returned'
 
 
-class BookDelete(PermissionRequiredMixin, DeleteView):
+class BookDelete(LoginRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books')
     permission_required = 'catalog.can_mark_returned'
 
 
-class ReadedBookCreate(PermissionRequiredMixin, CreateView):
+class ReadedBookCreate(LoginRequiredMixin, CreateView):
     model = ReadedBook
     fields = '__all__'
     permission_required = 'catalog.can_mark_returned'
 
 
-class ReadedBookUpdate(PermissionRequiredMixin, UpdateView):
+class ReadedBookUpdate(LoginRequiredMixin, UpdateView):
     model = ReadedBook
     fields = '__all__'
     permission_required = 'catalog.can_mark_returned'
 
 
-class ReadedBookDelete(PermissionRequiredMixin, DeleteView):
+class ReadedBookDelete(LoginRequiredMixin, DeleteView):
     model = ReadedBook
     success_url = reverse_lazy('readedbooks')
     permission_required = 'catalog.can_mark_returned'
