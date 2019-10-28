@@ -327,7 +327,7 @@ def account_activation_sent(request):
     return render(request, 'registration/account_activation_sent.html')
 
 
-def activate_account(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
+def activate (request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
     try:
         uid = force_bytes(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
