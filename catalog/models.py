@@ -44,7 +44,7 @@ class Book(models.Model):
         return self.title
 
 
-import uuid  # Required for unique readed books
+
 from datetime import date
 
 from django.contrib.auth.models import User  # Required to assign User as a borrower
@@ -52,8 +52,8 @@ from django.contrib.auth.models import User  # Required to assign User as a borr
 
 class ReadedBook(models.Model):
     """Model representing a specific copy of a book (i.e. that can be borrowed and read from the from the books Catalog Application)."""
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
-                          help_text="Unique ID for this particular book across whole Book Catalog")
+
+
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
@@ -82,6 +82,9 @@ class ReadedBook(models.Model):
     class Meta:
         ordering = ['due_back']
         permissions = (("can_mark_returned", "Set book as returned"),)
+      
+
+
 
     def __str__(self):
         """String for representing the Model object."""
