@@ -110,7 +110,7 @@ class Author(models.Model):
         return '{0}, {1}'.format(self.last_name, self.first_name)
 
 
-class Profile(models.Model):
+class User(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
@@ -119,8 +119,8 @@ class Profile(models.Model):
 
 
 @receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
+def update_user_user(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
-    instance.profile.save()
+        User.objects.create(user=instance)
+    instance.user.save()
     
