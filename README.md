@@ -1,4 +1,4 @@
-# Django book Catalog Assignment 2019 v107
+# DJANGO BOOK CATALOG APPLICATION WITH REST API 
 
 This web application creates an online catalog for a small local library, where users can browse available books and manage their accounts.
 
