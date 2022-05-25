@@ -10,7 +10,7 @@ djangorestframework==3.10.3
 djangorestframework-jwt==1.11.0
 gunicorn==19.9.0
 Pillow==6.1.0
-pyjwt==1.7.1
+pyjwt==2.4.0
 pytz==2019.2
 requests==2.22.0
 rest-framework-auth0==0.5.3
